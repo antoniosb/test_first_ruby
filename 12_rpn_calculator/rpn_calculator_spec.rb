@@ -95,7 +95,9 @@ describe RPNCalculator do
     calculator.push(3)
     calculator.times
     calculator.value.should == (1+2)*3
+  end
 
+  it "resolves operator precedence unambiguously" do
     # 1 2 3 * + => 1 + (2 * 3)
     calculator.push(1)
     calculator.push(2)
@@ -104,6 +106,7 @@ describe RPNCalculator do
     calculator.plus
     calculator.value.should == 1+(2*3)
   end
+
 
   it "fails informatively when there's not enough values stacked away" do
     expect {
@@ -133,15 +136,21 @@ describe RPNCalculator do
   it "evaluates a string" do
     calculator.evaluate("1 2 3 * +").should ==
       ((2 * 3) + 1)
+  end
 
+  it "evaluates a string" do
     calculator.evaluate("4 5 -").should ==
       (4 - 5)
+  end
 
+  it "evaluates a string" do
     calculator.evaluate("2 3 /").should ==
       (2.0 / 3.0)
+  end
 
+  it "evaluates a string" do
     calculator.evaluate("1 2 3 * + 4 5 - /").should ==
-      (1.0 + (2 * 3)) / (4 - 5)
+      ((1.0 + (2 * 3)) - 5) / 4
   end
 
 end
