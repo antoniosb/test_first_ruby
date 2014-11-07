@@ -29,20 +29,15 @@ module Words
 
     def number_to_word(number)
       num = number.to_s.split('')
-      if num.size == 1
-        one_digits[num[0]]
-      elsif num.size == 2
-        two_digits(number)
-      elsif num.size == 3
-        three_digits(number)
-      elsif num.size > 3 && num.size <= 6
-        more_digits(number, 1_000, 'thousand')
-      elsif num.size > 6 && num.size <= 9
-        more_digits(number, 1_000_000, 'million')
-      elsif num.size > 9 && num.size <= 12
-        more_digits(number, 1_000_000_000, 'billion')
-      elsif num.size > 12 && num.size <= 15
-        more_digits(number, 1_000_000_000_000, 'trillion')
+      case num.size
+      when 1 then one_digits[num[0]]
+      when 2 then two_digits(number)
+      when 3 then three_digits(number)
+      when 4..6 then more_digits(number, 1_000, 'thousand')
+      when 7..9 then more_digits(number, 1_000_000, 'million')
+      when 10..12 then more_digits(number, 1_000_000_000, 'billion')
+      when 12..15 then more_digits(number, 1_000_000_000_000, 'trillion')
+      else fail "Don't know how to say this number"
       end
     end
 
