@@ -36,16 +36,14 @@ module Words
       elsif num.size == 3
         three_digits(number)
       elsif num.size > 3 && num.size <= 6
-        thousands(number)
+        more_digits(number, 1_000, 'thousand')
       elsif num.size > 6 && num.size <= 9
-        millions(number)
+        more_digits(number, 1_000_000, 'million')
       elsif num.size > 9 && num.size <= 12
-        billions(number)
+        more_digits(number, 1_000_000_000, 'billion')
       elsif num.size > 12 && num.size <= 15
-        trillions(number)
+        more_digits(number, 1_000_000_000_000, 'trillion')
       end
-      # ... and so on. It this momment I'm sorry for this impl.
-      # Maybe metaprogramming would help here ;~
     end
 
     def two_digits(num)
@@ -78,87 +76,24 @@ module Words
       one_digits[first] + ' hundred'
     end
 
-    def thousands(num)
-      thousand = num / 1000
-      rest = num % 1000
+    def more_digits(number, divisor, word)
+      num = number / divisor
+      rest = number % divisor
       if rest == 0
-        thousand_miles(thousand)
+        build_more_digits(num, word)
       else
-        thousand_miles(thousand) + ' ' + three_digits(rest)
+        build_more_digits(num, word) + ' ' + number_to_word(rest)
       end
     end
 
-    def thousand_miles(thousand)
-      thousand_s = thousand.to_s.split('')
-      if thousand_s.size == 1
-        one_digits[thousand_s[0]] + ' thousand'
-      elsif thousand_s.size == 2
-        two_digits(thousand) + ' thousand'
-      elsif thousand_s.size == 3
-        three_digits(thousand) + ' thousand'
-      end
-    end
-
-    def millions(num)
-      millions = num / 1_000_000
-      rest = num % 1_000_000
-      if rest == 0
-        million_miles(millions)
-      else
-        million_miles(millions) + ' ' + number_to_word(rest)
-      end
-    end
-
-    def million_miles(million)
-      million_s = million.to_s.split('')
-      if million_s.size == 1
-        one_digits[million_s[0]] + ' million'
-      elsif million_s.size == 2
-        two_digits(million) + ' million'
-      elsif million_s.size == 3
-        three_digits(million) + ' million'
-      end
-    end
-
-    def billions(num)
-      billion = num / 1_000_000_000
-      rest = num % 1_000_000_000
-      if rest == 0
-        billion_miles(billion)
-      else
-        billion_miles(billion) + ' ' + number_to_word(rest)
-      end
-    end
-
-    def billion_miles(billion)
-      billion_s = billion.to_s.split('')
-      if billion_s.size == 1
-        one_digits[billion_s[0]] + ' billion'
-      elsif billion_s.size == 2
-        two_digits(billion) + ' billion'
-      elsif billion_s.size == 3
-        three_digits(billion) + ' billion'
-      end
-    end
-
-    def trillions(num)
-      trillion = num / 1_000_000_000_000
-      rest = num % 1_000_000_000_000
-      if rest == 0
-        trillion_miles(trillion)
-      else
-        trillion_miles(trillion) + ' ' + number_to_word(rest)
-      end
-    end
-
-    def trillion_miles(trillion)
-      trillion_s = trillion.to_s.split('')
-      if trillion_s.size == 1
-        one_digits[trillion_s[0]] + ' trillion'
-      elsif trillion_s.size == 2
-        two_digits(trillion) + ' trillion'
-      elsif trillion_s.size == 3
-        three_digits(trillion) + ' trillion'
+    def build_more_digits(number, word)
+      number_s = number.to_s.split('')
+      if number_s.size == 1
+        one_digits[number_s[0]] + " #{word}"
+      elsif number_s.size == 2
+        two_digits(number) + " #{word}"
+      elsif number_s.size == 3
+        three_digits(number) + " #{word}"
       end
     end
   end
