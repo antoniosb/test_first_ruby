@@ -102,6 +102,7 @@ describe Fixnum do
     1_000_000_000_000.in_words.should == 'one trillion'
     1_000_000_000_001.in_words.should == 'one trillion one'
     1_888_259_040_036.in_words.should == 'one trillion eight hundred eighty eight billion two hundred fifty nine million forty thousand thirty six'
+    1_045_002_456_020.in_words.should == 'one trillion forty five billion two million four hundred fifty six thousand twenty'
   end
 
 end

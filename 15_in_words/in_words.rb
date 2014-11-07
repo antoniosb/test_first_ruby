@@ -47,6 +47,7 @@ module Words
     end
 
     def two_digits(num)
+      return one_digits[num.to_s.slice(1..-1)] if num < 10
       num_s = num.to_s.split('')
       if ten_elev_twelv.keys.include? num.to_s # 10,11,12
         ten_elev_twelv[num.to_s]
